@@ -37,7 +37,6 @@
   # replace patches with ones tweaked slightly to apply to this version
   patches = [
     ./opencl.patch
-    ./system-gbm.patch
   ];
 
   postInstall = (oldAttrs.postInstall or "") + ''
