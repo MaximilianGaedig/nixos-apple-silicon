@@ -1,10 +1,12 @@
 { lib
 , fetchFromGitLab
-, mesa
+, pkgs
+, meson
+, llvmPackages
 }:
 
-(mesa.override {
-  galliumDrivers = [ "softpipe" "llvmpipe" "asahi" ];
+(pkgs.mesa.override {
+  galliumDrivers = [ "swrast" "asahi" ];
   vulkanDrivers = [ "swrast" "asahi" ];
 }).overrideAttrs (oldAttrs: {
   # version must be the same length (i.e. no unstable or date)
@@ -32,10 +34,17 @@
       "-Dgallium-va=disabled"
       "-Dgallium-vdpau=disabled"
       "-Dgallium-xa=disabled"
+      # does not make any sense
+      "-Dandroid-libbacktrace=disabled"
+      "-Dintel-rt=disabled"
+      # do not want to add the dependencies
+      "-Dlibunwind=disabled"
+      "-Dlmsensors=disabled"
     ];
 
   # replace patches with ones tweaked slightly to apply to this version
   patches = [
+    ./disk_cache-include-dri-driver-path-in-cache-key.patch
     ./opencl.patch
   ];
 
