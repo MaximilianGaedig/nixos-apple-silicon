@@ -7,7 +7,9 @@
   galliumDrivers = [ "softpipe" "llvmpipe" "asahi" ];
   vulkanDrivers = [ "swrast" "asahi" ];
 }).overrideAttrs (oldAttrs: {
-  version = "25.0.0-asahi";
+  # version must be the same length (i.e. no unstable or date)
+  # so that system.replaceRuntimeDependencies can work
+  version = "25.0.0";
   src = fetchFromGitLab {
     # tracking: https://pagure.io/fedora-asahi/mesa/commits/asahi
     domain = "gitlab.freedesktop.org";
